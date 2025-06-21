@@ -11,4 +11,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  esbuild: {
+    legalComments: "none",
+  },
+  build: {
+    terserOptions: {
+      compress: {
+        drop_console: true,
+      },
+      format: {
+        comments: false,
+      },
+    },
+  },
 });
