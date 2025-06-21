@@ -3,6 +3,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
   useCarousel,
 } from "./ui/carousel";
 
@@ -11,7 +13,7 @@ const ConsumerBrands = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      //   scrollNext();
+      scrollNext();
     }, 3000);
     return () => clearInterval(interval);
   }, [scrollNext]);
@@ -47,7 +49,7 @@ const ConsumerBrands = () => {
     },
     {
       name: "Steam",
-      image: "/brand_logos/steam.jpeg",
+      image: "/brand_logos/steam.png",
     },
     {
       name: "Xbox",
@@ -103,7 +105,9 @@ export const AboutSection = () => {
             className="bg-slate-400/50 backdrop-blur-sm border border-slate-800 rounded-xl p-8 hover:border-emerald-400/30 transition-all duration-300"
             opts={{ loop: true, align: "center" }}
           >
+            <CarouselPrevious />
             <ConsumerBrands />
+            <CarouselNext />
           </Carousel>
           <p className="text-xs text-slate-500 mt-6 italic">
             *No actual brand loyalty implied. Results may vary based on
