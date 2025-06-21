@@ -78,7 +78,7 @@ export const Hero = () => {
           <span className="text-emerald-400">Obsessed</span> with technology,
           <br />
           <span className="text-slate-300">driven by</span>{" "}
-          <span className="text-emerald-400">clean architecture</span>
+          <span className="text-emerald-400">code</span>
         </h1>
 
         <div className="w-24 h-1 bg-gradient-to-r from-emerald-400 to-teal-400 mx-auto mb-8 rounded-full" />
