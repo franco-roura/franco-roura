@@ -60,7 +60,10 @@ const ConsumerBrands = () => {
   return (
     <CarouselContent>
       {brands.map((brand) => (
-        <CarouselItem className="basis-1/5 flex justify-center items-center">
+        <CarouselItem
+          key={brand.name}
+          className="basis-1/5 flex justify-center items-center"
+        >
           <img
             src={brand.image}
             alt={brand.name}
