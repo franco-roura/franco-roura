@@ -21,23 +21,23 @@ const ConsumerBrands = () => {
   const brands = [
     {
       name: "Apple",
-      image: "/brand_logos/apple.png",
+      image: "/brand_logos/apple.webp",
     },
     {
       name: "AWS",
-      image: "/brand_logos/aws.png",
+      image: "/brand_logos/aws.webp",
     },
     {
       name: "Disney+",
-      image: "/brand_logos/disney.png",
+      image: "/brand_logos/disney.webp",
     },
     {
       name: "HBO",
-      image: "/brand_logos/hbo.png",
+      image: "/brand_logos/hbo.webp",
     },
     {
       name: "Netflix",
-      image: "/brand_logos/netflix.png",
+      image: "/brand_logos/netflix.webp",
     },
     {
       name: "Nintendo",
@@ -45,15 +45,15 @@ const ConsumerBrands = () => {
     },
     {
       name: "Spotify",
-      image: "/brand_logos/spotify.png",
+      image: "/brand_logos/spotify.webp",
     },
     {
       name: "Steam",
-      image: "/brand_logos/steam.png",
+      image: "/brand_logos/steam.webp",
     },
     {
       name: "Xbox",
-      image: "/brand_logos/xbox.png",
+      image: "/brand_logos/xbox.webp",
     },
   ];
 

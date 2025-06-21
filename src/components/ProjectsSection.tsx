@@ -64,12 +64,12 @@ const CompanyCard = (props: CompanyCardProps) => {
               <h3 className="text-xl font-semibold mb-2 text-emerald-300">
                 {props.company.name}
               </h3>
-              <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
                 <GitBranch className="w-4 h-4 text-emerald-400" />
-                <span className="text-sm font-medium text-emerald-400">
+                <span className="text-sm font-medium text-emerald-400 whitespace-nowrap">
                   {props.company.role}
                 </span>
-                <span className="text-sm text-slate-400 ml-2">
+                <span className="text-sm text-slate-400 ml-2 whitespace-nowrap">
                   {props.company.year}
                 </span>
               </div>
