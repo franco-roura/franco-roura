@@ -148,7 +148,7 @@ export const ProjectsSection = () => {
             <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 hover:border-emerald-400/30 transition-all duration-300 animate-fade-in">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-semibold mb-2 text-slate-100 text-emerald-300">
+                  <h3 className="text-xl font-semibold mb-2 text-emerald-300">
                     {companies[hoveredNode].name}
                   </h3>
                   <div className="flex items-center gap-2 mb-3">
