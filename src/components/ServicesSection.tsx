@@ -6,19 +6,19 @@ export const ServicesSection = () => {
       icon: Server,
       title: "Architecture & System Design",
       description:
-        "Microservices, event-driven systems, with a focus on availability, cost-effectiveness, and scalability.",
+        "Microservices, event-driven systems, with a focus on availability, cost-effectiveness, and scalability. You get uptime, I get peace of mind. Everyone wins.",
     },
     {
       icon: Cloud,
       title: "Cloud & DevOps",
       description:
-        "Kubernetes, Terraform, CI/CD, telemetry, and observability. I think Vercel is cool, and I can work with a $5 VPC, but I prefer AWS.",
+        "Kubernetes, Terraform, CI/CD, telemetry, and observability. I think Vercel is cool, and I can make magic in a $5 VPC, but I won't pretend it's better than AWS.",
     },
     {
       icon: Code,
       title: "Code Craftsmanship",
       description:
-        "I love Go, TypeScript, functional programming, and good developer experience. I'm okay with Python, but please no OOP.",
+        "I love Go, TypeScript, functional programming, and DX that sparks joy. I'll write Python if I must - but please keep the classes and OOP stuff away.",
     },
   ];
 

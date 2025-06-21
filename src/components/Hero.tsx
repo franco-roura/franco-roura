@@ -84,8 +84,8 @@ export const Hero = () => {
         <div className="w-24 h-1 bg-gradient-to-r from-emerald-400 to-teal-400 mx-auto mb-8 rounded-full" />
 
         <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-12">
-          Software architect crafting scalable solutions with precision and
-          passion
+          Software architect building scalable systems with surgical precision,
+          caffeine, and unreasonable enthusiasm.
         </p>
 
         {/* Social Links */}

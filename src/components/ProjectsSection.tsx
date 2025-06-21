@@ -9,6 +9,7 @@ type CompanyCardProps = {
     year: string;
     description: string;
     tech: string[];
+    link: string;
   };
   position: {
     x: number;
@@ -73,7 +74,13 @@ const CompanyCard = (props: CompanyCardProps) => {
                 </span>
               </div>
             </div>
-            <ExternalLink className="w-5 h-5 text-slate-400 hover:text-emerald-400 transition-colors flex-shrink-0" />
+            <a
+              href={props.company.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLink className="w-5 h-5 text-slate-400 hover:text-emerald-400 transition-colors flex-shrink-0" />
+            </a>
           </div>
 
           <p className="text-slate-400 mb-4 leading-relaxed">
@@ -105,6 +112,7 @@ export const ProjectsSection = () => {
       description:
         "My first year in college, and also the year I landed my first job in the industry! I was able to work in the Disney team and learnt a lot about best practices for software development.",
       tech: ["Python", "Selenium", "BDD"],
+      link: "https://www.globant.com/",
     },
     {
       name: "3XM",
@@ -113,6 +121,7 @@ export const ProjectsSection = () => {
       description:
         "AWS started positioning itself as the cloud of choice for the industry, and as the curious guy I was, I was hyped about it. 3XM allowed me to get a bunch of hands-on experience with it.",
       tech: ["C#", "Angular", "Python", "AWS", "Terraform"],
+      link: "https://www.linkedin.com/company/3xm-group",
     },
     {
       name: "BairesDev",
@@ -121,6 +130,7 @@ export const ProjectsSection = () => {
       description:
         "I was lucky enough to land my first remote job a few months before the pandemic hit, and even luckier to end up in the AdRoll team. I had always been obsessed with performance, and the folks at AdRoll taught me how to handle TONS of distributed data FAST. When you're processing millions of ad impressions in real-time, you quickly learn that performance isn't just nice to have, it's everything.",
       tech: ["React", "Python", "Go", "Terraform", "Typescript", "GraphQL"],
+      link: "https://www.bairesdev.com/",
     },
     {
       name: "Capicua",
@@ -129,13 +139,14 @@ export const ProjectsSection = () => {
       description:
         "My longest stint so far! I got to wear many hats here - from architecting cloud-native solutions to mentoring devs and even doing some people management. I basically became the go-to person for anything tech-related, from system design to CI/CD pipelines. The best part? I got to make my coworkers' lives easier by improving DX and making them happier at work.",
       tech: ["AWS", "NextJS", "Typescript", "Terraform", "GraphQL"],
+      link: "https://www.capicua.com/",
     },
     {
       name: "White Prompt",
       role: "Software Architect",
       year: "2025-Present",
       description:
-        "Ah, the era of AI agents and LLMs. I'm currently building a BI tool with LLM integrations, I'm mostly on the Telemetry and infrastructure side of things. Fun fact, I used LLMs to build this website.",
+        "Ah, the era of AI agents and LLMs. I'm currently building a BI tool with LLM integrations, I'm mostly on the Telemetry and infrastructure side of things. Fun fact, I also used LLMs to build this website during this period.",
       tech: [
         "Terraform",
         "OTEL",
@@ -145,6 +156,7 @@ export const ProjectsSection = () => {
         "Python",
         "Typescript",
       ],
+      link: "https://www.whiteprompt.com/",
     },
   ];
 
