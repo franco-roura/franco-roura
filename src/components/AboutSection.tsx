@@ -105,9 +105,9 @@ export const AboutSection = () => {
             className="bg-slate-400/50 backdrop-blur-sm border border-slate-800 rounded-xl p-8 hover:border-emerald-400/30 transition-all duration-300"
             opts={{ loop: true, align: "center" }}
           >
-            <CarouselPrevious />
+            <CarouselPrevious className="hidden lg:inline-flex" />
             <ConsumerBrands />
-            <CarouselNext />
+            <CarouselNext className="hidden lg:inline-flex" />
           </Carousel>
           <p className="text-xs text-slate-500 mt-6 italic">
             *No actual brand loyalty implied. Results may vary based on

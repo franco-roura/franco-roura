@@ -1,9 +1,102 @@
-import { useState } from "react";
 import { ExternalLink, GitBranch } from "lucide-react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { useState } from "react";
+
+type CompanyCardProps = {
+  company: {
+    name: string;
+    role: string;
+    year: string;
+    description: string;
+    tech: string[];
+  };
+  position: {
+    x: number;
+    y: number;
+  };
+};
+
+const CompanyCard = (props: CompanyCardProps) => {
+  const [forceOpen, setForceOpen] = useState(false);
+
+  return (
+    <HoverCard openDelay={100} open={forceOpen} onOpenChange={setForceOpen}>
+      <HoverCardTrigger asChild onClick={() => setForceOpen(true)}>
+        <g>
+          {/* Node circle */}
+          <circle
+            cx={props.position.x}
+            cy={props.position.y}
+            r="12"
+            fill={props.company.name === "White Prompt" ? "#64748b" : "#10b981"}
+            stroke="#1e293b"
+            strokeWidth="3"
+            className="cursor-pointer transition-all duration-300 hover:fill-emerald-300 hover:r-4"
+          />
+
+          {/* Company label */}
+          <text
+            x={props.position.x}
+            y={props.position.y - 30}
+            textAnchor="middle"
+            className="fill-emerald-400 text-sm font-semibold"
+          >
+            {props.company.name}
+          </text>
+
+          {/* Year label */}
+          <text
+            x={props.position.x}
+            y={props.position.y + 35}
+            textAnchor="middle"
+            className="fill-slate-400 text-xs"
+          >
+            {props.company.year}
+          </text>
+        </g>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-96">
+        {/* Company Details Card */}
+        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 hover:border-emerald-400/30 transition-all duration-300 animate-fade-in">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-xl font-semibold mb-2 text-emerald-300">
+                {props.company.name}
+              </h3>
+              <div className="flex items-center gap-2 mb-3">
+                <GitBranch className="w-4 h-4 text-emerald-400" />
+                <span className="text-sm font-medium text-emerald-400">
+                  {props.company.role}
+                </span>
+                <span className="text-sm text-slate-400 ml-2">
+                  {props.company.year}
+                </span>
+              </div>
+            </div>
+            <ExternalLink className="w-5 h-5 text-slate-400 hover:text-emerald-400 transition-colors flex-shrink-0" />
+          </div>
+
+          <p className="text-slate-400 mb-4 leading-relaxed">
+            {props.company.description}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {props.company.tech.map((tech, techIndex) => (
+              <span
+                key={techIndex}
+                className="px-3 py-1 text-xs font-medium bg-emerald-400/10 text-emerald-400 rounded-full border border-emerald-400/20"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  );
+};
 
 export const ProjectsSection = () => {
-  const [hoveredNode, setHoveredNode] = useState<number | null>(null);
-
   const companies = [
     {
       name: "Globant",
@@ -68,12 +161,12 @@ export const ProjectsSection = () => {
 
         <div className="relative">
           {/* SVG Path */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-8 overflow-x-auto">
             <svg
               width="800"
               height="300"
               viewBox="0 0 800 300"
-              className="max-w-full"
+              className="max-w-full overflow-x-auto"
             >
               {/* Path connecting all nodes */}
               <path
@@ -104,91 +197,22 @@ export const ProjectsSection = () => {
                 ];
 
                 return (
-                  <g key={index}>
-                    {/* Node circle */}
-                    <circle
-                      cx={positions[index].x}
-                      cy={positions[index].y}
-                      r={hoveredNode === index ? "16" : "12"}
-                      fill={index === 4 ? "#64748b" : "#10b981"}
-                      stroke="#1e293b"
-                      strokeWidth="3"
-                      className="cursor-pointer transition-all duration-300 hover:fill-emerald-300"
-                      onMouseEnter={() => setHoveredNode(index)}
-                      onMouseLeave={() => setHoveredNode(null)}
-                    />
-
-                    {/* Company label */}
-                    <text
-                      x={positions[index].x}
-                      y={positions[index].y - 30}
-                      textAnchor="middle"
-                      className="fill-emerald-400 text-sm font-semibold"
-                    >
-                      {company.name}
-                    </text>
-
-                    {/* Year label */}
-                    <text
-                      x={positions[index].x}
-                      y={positions[index].y + 35}
-                      textAnchor="middle"
-                      className="fill-slate-400 text-xs"
-                    >
-                      {company.year}
-                    </text>
-                  </g>
+                  <CompanyCard
+                    key={company.name}
+                    company={company}
+                    position={positions[index]}
+                  />
                 );
               })}
             </svg>
           </div>
 
-          {/* Company Details Card */}
-          {hoveredNode !== null && (
-            <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 hover:border-emerald-400/30 transition-all duration-300 animate-fade-in">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="text-xl font-semibold mb-2 text-emerald-300">
-                    {companies[hoveredNode].name}
-                  </h3>
-                  <div className="flex items-center gap-2 mb-3">
-                    <GitBranch className="w-4 h-4 text-emerald-400" />
-                    <span className="text-sm font-medium text-emerald-400">
-                      {companies[hoveredNode].role}
-                    </span>
-                    <span className="text-sm text-slate-400 ml-2">
-                      {companies[hoveredNode].year}
-                    </span>
-                  </div>
-                </div>
-                <ExternalLink className="w-5 h-5 text-slate-400 hover:text-emerald-400 transition-colors flex-shrink-0" />
-              </div>
-
-              <p className="text-slate-400 mb-4 leading-relaxed">
-                {companies[hoveredNode].description}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {companies[hoveredNode].tech.map((tech, techIndex) => (
-                  <span
-                    key={techIndex}
-                    className="px-3 py-1 text-xs font-medium bg-emerald-400/10 text-emerald-400 rounded-full border border-emerald-400/20"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Default message when no node is hovered */}
-          {hoveredNode === null && (
-            <div className="text-center py-8">
-              <p className="text-slate-400 text-lg">
-                Hover over the nodes above to explore my career journey
-              </p>
-            </div>
-          )}
+          <div className="text-center py-8">
+            <p className="text-slate-400 text-lg">
+              Hover or click the nodes above to explore my career journey
+            </p>
+          </div>
         </div>
       </div>
     </section>
