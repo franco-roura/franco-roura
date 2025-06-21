@@ -4,3 +4,109 @@
 @theme {
   --font-orbitron: "Orbitron", sans-serif;
 }
+
+/* Custom animations for geometric shapes */
+@keyframes spin-float-1 {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  25% {
+    transform: translateX(-25px) translateY(-25px) rotate(180deg);
+    opacity: 0.5;
+  }
+
+  75% {
+    transform: translateX(25px) translateY(25px) rotate(180deg);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-25px);
+    opacity: 1;
+  }
+}
+
+@keyframes spin-float-2 {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-15px) translateX(16px) rotate(-180deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin-float-3 {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-12px) translateX(12px) rotate(180deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin-float-4 {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-8px) translateX(8px) rotate(-180deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin-float-5 {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-6px) translateX(6px) rotate(180deg);
+    opacity: 0.5;
+  }
+}
+
+/* Animation classes */
+.animate-spin-float-1 {
+  animation: spin-float-1 24s ease-in-out infinite;
+}
+
+.animate-spin-float-2 {
+  animation: spin-float-2 22s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-spin-float-3 {
+  animation: spin-float-3 26s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-spin-float-4 {
+  animation: spin-float-4 20s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.animate-spin-float-5 {
+  animation: spin-float-5 22s ease-in-out infinite;
+  animation-delay: 3s;
+}

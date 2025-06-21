@@ -7,7 +7,7 @@ export const Hero = () => {
       {/* Geometric shapes */}
       <div className="absolute inset-0 pointer-events-none">
         <svg
-          className="absolute top-20 left-10 text-emerald-400/20"
+          className="absolute top-20 left-10 text-emerald-400/20 animate-spin-float-1"
           width="60"
           height="60"
           viewBox="0 0 60 60"
@@ -16,7 +16,7 @@ export const Hero = () => {
           <polygon points="30,5 55,50 5,50" />
         </svg>
         <svg
-          className="absolute top-40 right-16 text-teal-400/30"
+          className="absolute top-40 right-16 text-teal-400/30 animate-spin-float-2"
           width="40"
           height="40"
           viewBox="0 0 40 40"
@@ -27,7 +27,7 @@ export const Hero = () => {
           <circle cx="20" cy="20" r="18" />
         </svg>
         <svg
-          className="absolute bottom-32 left-20 text-emerald-400/25"
+          className="absolute bottom-32 left-20 text-emerald-400/25 animate-spin-float-3"
           width="50"
           height="50"
           viewBox="0 0 50 50"
@@ -36,7 +36,7 @@ export const Hero = () => {
           <rect x="5" y="5" width="40" height="40" rx="8" />
         </svg>
         <svg
-          className="absolute top-60 right-32 text-teal-400/20"
+          className="absolute top-60 right-32 text-teal-400/20 animate-spin-float-4"
           width="30"
           height="30"
           viewBox="0 0 30 30"
@@ -45,7 +45,7 @@ export const Hero = () => {
           <polygon points="15,2 28,26 2,26" />
         </svg>
         <svg
-          className="absolute bottom-20 right-10 text-emerald-400/30"
+          className="absolute bottom-20 right-10 text-emerald-400/30 animate-spin-float-5"
           width="35"
           height="35"
           viewBox="0 0 35 35"
