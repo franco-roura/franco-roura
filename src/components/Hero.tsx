@@ -60,8 +60,8 @@ export const Hero = () => {
       <div className="text-center max-w-4xl mx-auto relative z-10">
         {/* Profile Picture */}
         <div className="mb-8 flex justify-center">
-          <Avatar className="w-32 h-32 border-4 border-emerald-400/20">
-            <AvatarImage src="/placeholder.svg" alt="Profile" />
+          <Avatar className="w-64 h-64 border-4 border-emerald-400/20">
+            <AvatarImage src="/avatar.webp" alt="Profile" />
             <AvatarFallback className="bg-slate-800 text-emerald-400 text-2xl font-bold">
               ME
             </AvatarFallback>
