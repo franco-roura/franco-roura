@@ -9,6 +9,14 @@ const cleanHtml = (html: string): string => {
   return html.replace(/<div class="mb-8 flex justify-center">.*?<\/div>/gs, "");
 };
 
+const createThemeVariant = (html: string, isDark: boolean): string => {
+  const contrastColor = isDark ? "text-white" : "text-black";
+  return html
+    .replace(/text-slate-300/g, contrastColor)
+    .replace(/text-slate-400/g, contrastColor)
+    .replace(/font-orbitron/g, "font-orbitron " + contrastColor);
+};
+
 const extractTailwindClasses = (html: string): string[] => {
   const classRegex = /class="([^"]*)"/g;
   const classes: string[] = [];
@@ -64,6 +72,8 @@ const generateTailwindCSS = (classes: string[]): string => {
     "leading-tight",
     "font-orbitron",
     "text-slate-300",
+    "text-black",
+    "text-white",
     "w-24",
     "h-1",
     "bg-gradient-to-r",
@@ -140,6 +150,8 @@ const generateTailwindCSS = (classes: string[]): string => {
     .leading-tight { line-height: 1.25; }
     .font-orbitron { font-family: 'Orbitron', monospace; }
     .text-slate-300 { color: #cbd5e1; }
+    .text-black { color: #000000; }
+    .text-white { color: #ffffff; }
     .w-24 { width: 6rem; }
     .h-1 { height: 0.25rem; }
     .bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)); }
@@ -212,7 +224,7 @@ const generateTailwindCSS = (classes: string[]): string => {
 
 const buildHeroSVG = async () => {
   try {
-    console.log("🚀 Building Hero SVG...");
+    console.log("🚀 Building Hero SVGs...");
 
     // Render the Hero component to HTML
     const heroElement = createElement(Hero);
@@ -221,12 +233,18 @@ const buildHeroSVG = async () => {
     // Clean the HTML
     const cleanedHtml = cleanHtml(html);
 
-    // Extract Tailwind classes
-    const classes = extractTailwindClasses(cleanedHtml);
-    console.log(`📦 Found ${classes.length} unique Tailwind classes`);
+    // Create both theme variants
+    const darkHtml = createThemeVariant(cleanedHtml, true);
+    const lightHtml = createThemeVariant(cleanedHtml, false);
+
+    // Extract Tailwind classes from both variants
+    const darkClasses = extractTailwindClasses(darkHtml);
+    const lightClasses = extractTailwindClasses(lightHtml);
+    const allClasses = [...new Set([...darkClasses, ...lightClasses])];
+    console.log(`📦 Found ${allClasses.length} unique Tailwind classes`);
 
     // Generate CSS for the classes
-    const css = generateTailwindCSS(classes);
+    const css = generateTailwindCSS(allClasses);
 
     // Read the SVG template
     const svgTemplatePath = path.join(
@@ -236,20 +254,38 @@ const buildHeroSVG = async () => {
     );
     const svgTemplate = fs.readFileSync(svgTemplatePath, "utf-8");
 
-    // Replace the placeholder content with the rendered HTML and CSS
-    const finalSVG = svgTemplate
-      .replace("<!-- Content goes here -->", cleanedHtml)
+    // Create dark theme SVG
+    const darkSVG = svgTemplate
+      .replace("<!-- Content goes here -->", darkHtml)
       .replace("<!-- Css goes here -->", css);
 
-    // Write the final SVG
-    const outputPath = path.join(process.cwd(), "public", "md-trick.svg");
-    fs.writeFileSync(outputPath, finalSVG);
+    // Create light theme SVG
+    const lightSVG = svgTemplate
+      .replace("<!-- Content goes here -->", lightHtml)
+      .replace("<!-- Css goes here -->", css);
 
-    console.log("✅ Hero SVG built successfully!");
-    console.log(`📁 Output: ${outputPath}`);
-    console.log(`📏 Size: ${(finalSVG.length / 1024).toFixed(2)} KB`);
+    // Write both SVG files
+    const darkOutputPath = path.join(
+      process.cwd(),
+      "public",
+      "md-trick-dark.svg"
+    );
+    const lightOutputPath = path.join(
+      process.cwd(),
+      "public",
+      "md-trick-light.svg"
+    );
+
+    fs.writeFileSync(darkOutputPath, darkSVG);
+    fs.writeFileSync(lightOutputPath, lightSVG);
+
+    console.log("✅ Hero SVGs built successfully!");
+    console.log(`📁 Dark theme: ${darkOutputPath}`);
+    console.log(`📁 Light theme: ${lightOutputPath}`);
+    console.log(`📏 Dark SVG size: ${(darkSVG.length / 1024).toFixed(2)} KB`);
+    console.log(`📏 Light SVG size: ${(lightSVG.length / 1024).toFixed(2)} KB`);
   } catch (error) {
-    console.error("❌ Error building Hero SVG:", error);
+    console.error("❌ Error building Hero SVGs:", error);
     process.exit(1);
   }
 };
