@@ -100,7 +100,14 @@ const generateTailwindCSS = (classes: string[]): string => {
 
   // Generate basic CSS for the used classes
   const css = `
-    @import url('https://fonts.cdnfonts.com/css/orbitron');
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2') format('woff2');
+      font-weight: 400 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
     
     .min-h-screen { min-height: 100vh; }
     .flex { display: flex; }
