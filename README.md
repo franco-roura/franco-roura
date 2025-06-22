@@ -1,1 +1,1 @@
-<img src="./public/md-trick.svg" height="880px" width="500px">
+<img src="./public/md-trick.svg" height="880px" width="100%">
