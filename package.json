@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:md-trick": "bun run scripts/build-md-trick.ts",
     "lint": "eslint .",
     "preview": "vite preview"
   },
