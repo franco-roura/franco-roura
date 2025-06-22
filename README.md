@@ -1,1 +1,1 @@
-![](./public/md-trick.svg)
+<img src="./public/md-trick.svg" height="880px" width="500px">
