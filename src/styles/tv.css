@@ -1,7 +1,7 @@
 /* The hero's 3D TV: a studio-backdrop media frame, its actions row and the exploded
    view's bill of materials. */
 .m1-hero-media { display: flex; flex-direction: column; gap: var(--space-2); width: 340px; }
-.m1-hero-tv { position: relative; height: 400px; border-radius: var(--radius-md); background: var(--studio); overflow: hidden;
+.m1-hero-tv { position: relative; height: 400px; border-radius: var(--radius-md); background: var(--shell); overflow: hidden;
   display: flex; align-items: center; justify-content: center; }
 .m1-hero-tv-canvas { position: absolute; inset: 0; opacity: 0; }
 .m1-hero-tv.is-ready .m1-hero-tv-canvas { opacity: 1; }
