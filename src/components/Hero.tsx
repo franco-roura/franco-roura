@@ -1,4 +1,49 @@
-import { Button, Hero as HeroShell } from "./m1";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Button, Hero as HeroShell, HeroPortrait } from "./m1";
+
+const HeroTV = lazy(() => import("./tv/HeroTV"));
+
+const supportsWebGL = () => {
+  try {
+    const canvas = document.createElement("canvas");
+    return Boolean(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+  } catch {
+    return false;
+  }
+};
+
+// The flat portrait renders first; the 3D TV loads once the browser is idle, so it
+// never competes with the text and photo for the first paint.
+const HeroMedia = () => {
+  const [mountTv, setMountTv] = useState(false);
+
+  useEffect(() => {
+    // Skip the 3D chunk for visitors who asked to save data
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    if (connection?.saveData || !supportsWebGL()) return;
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(() => setMountTv(true), { timeout: 1500 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = setTimeout(() => setMountTv(true), 600);
+    return () => clearTimeout(id);
+  }, []);
+
+  const portrait = <HeroPortrait portrait={<img src="/avatar.webp" alt="Franco Roura" />} label="FIG.01" />;
+  const placeholder = (
+    <div className="m1-hero-media">
+      <div className="m1-hero-tv">{portrait}</div>
+    </div>
+  );
+
+  if (!mountTv) return placeholder;
+
+  return (
+    <Suspense fallback={placeholder}>
+      <HeroTV fallback={portrait} />
+    </Suspense>
+  );
+};
 
 export const Hero = () => {
   return (
@@ -32,8 +77,7 @@ export const Hero = () => {
         { label: "Since", value: "2016" },
         { label: "Now", value: "White Prompt" },
       ]}
-      portrait={<img src="/avatar.webp" alt="Franco Roura" />}
-      portraitLabel="FIG.01"
+      media={<HeroMedia />}
     />
   );
 };

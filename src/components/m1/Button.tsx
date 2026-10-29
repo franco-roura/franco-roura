@@ -10,6 +10,8 @@ export type ButtonProps = {
   onClick?: MouseEventHandler;
   arrow?: boolean;
   disabled?: boolean;
+  "aria-label"?: string;
+  "aria-pressed"?: boolean;
   className?: string;
   children: ReactNode;
 };
@@ -23,6 +25,8 @@ export const Button = ({
   onClick,
   arrow,
   disabled,
+  "aria-label": ariaLabel,
+  "aria-pressed": ariaPressed,
   className,
   children,
 }: ButtonProps) => {
@@ -47,6 +51,7 @@ export const Button = ({
         rel={rel ?? (target === "_blank" ? "noopener noreferrer" : undefined)}
         download={download}
         onClick={onClick}
+        aria-label={ariaLabel}
       >
         {content}
       </a>
@@ -54,7 +59,14 @@ export const Button = ({
   }
 
   return (
-    <button type="button" className={classes} onClick={onClick} disabled={disabled}>
+    <button
+      type="button"
+      className={classes}
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      aria-pressed={ariaPressed}
+    >
       {content}
     </button>
   );

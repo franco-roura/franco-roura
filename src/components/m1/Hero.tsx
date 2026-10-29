@@ -12,10 +12,30 @@ export type HeroProps = {
   specs?: SpecItem[];
   portrait?: ReactNode;
   portraitLabel?: string;
+  media?: ReactNode;
   serial?: string;
   coords?: string;
   className?: string;
 };
+
+export type HeroPortraitProps = {
+  portrait?: ReactNode;
+  label?: string;
+};
+
+export const HeroPortrait = ({ portrait, label }: HeroPortraitProps) => (
+  <div className="m1-hero-port">
+    {portrait ?? (
+      <Crosshair style={{ width: 20, height: 20, color: "rgba(28,30,33,0.45)" }} />
+    )}
+    <span className="m1-hero-port-ring" aria-hidden="true" />
+    {label && (
+      <span className="m1-hero-port-tag m1-micro" style={{ color: "var(--ink)" }}>
+        {label}
+      </span>
+    )}
+  </div>
+);
 
 export const Hero = ({
   name,
@@ -25,6 +45,7 @@ export const Hero = ({
   specs,
   portrait,
   portraitLabel,
+  media,
   serial,
   coords,
   className,
@@ -47,18 +68,12 @@ export const Hero = ({
         {specs && <SpecReadout items={specs} />}
       </div>
       <div className="m1-hero-side">
-        <div className="m1-hero-port">
-          {portrait ?? (
-            <Crosshair style={{ width: 20, height: 20, color: "rgba(28,30,33,0.45)" }} />
-          )}
-          <span className="m1-hero-port-ring" aria-hidden="true" />
-          {portraitLabel && (
-            <span className="m1-hero-port-tag m1-micro" style={{ color: "var(--ink)" }}>
-              {portraitLabel}
-            </span>
-          )}
-        </div>
-        <Grill count={4} slotWidth={28} gap="8px" />
+        {media ?? (
+          <>
+            <HeroPortrait portrait={portrait} label={portraitLabel} />
+            <Grill count={4} slotWidth={28} gap="8px" />
+          </>
+        )}
         {coords && <span className="m1-micro">{coords}</span>}
       </div>
       <Crosshair className="m1-panel-cross" tone="signal" />
