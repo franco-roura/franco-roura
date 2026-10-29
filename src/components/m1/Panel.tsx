@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode, Ref } from "react";
 import { cn } from "@/lib/utils";
 import { Crosshair } from "./Crosshair";
 
@@ -10,6 +10,7 @@ export type PanelProps = {
   style?: CSSProperties;
   className?: string;
   bodyClassName?: string;
+  ref?: Ref<HTMLDivElement>;
   children: ReactNode;
 };
 
@@ -21,9 +22,10 @@ export const Panel = ({
   style,
   className,
   bodyClassName,
+  ref,
   children,
 }: PanelProps) => (
-  <div className={cn("m1-panel m1-lift", serial && "has-serial", className)} style={style}>
+  <div ref={ref} className={cn("m1-panel m1-lift", serial && "has-serial", className)} style={style}>
     <div
       className={cn(
         "m1-panel-body",

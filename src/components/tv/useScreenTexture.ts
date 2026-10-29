@@ -73,3 +73,67 @@ export const useStaticNoise = () => {
   useEffect(() => () => texture.dispose(), [texture]);
   return { texture, refresh };
 };
+
+// Colour bars in Module/01 tokens with a NO SIGNAL caption, for the 404 page
+const BARS = ["#ffffff", "#ffd9c7", "#ff5f1f", "#b9bccd", "#1fa45a", "#53575e", "#1c1e21"];
+
+export const useTestPattern = () => {
+  const texture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1024;
+    canvas.height = Math.round(1024 / SCREEN_ASPECT);
+    const created = new THREE.CanvasTexture(canvas);
+    created.colorSpace = THREE.SRGBColorSpace;
+    created.flipY = false; // the model's screen UVs follow the glTF convention
+    return created;
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const draw = () => {
+      const canvas = texture.image as HTMLCanvasElement;
+      const context = canvas.getContext("2d");
+      if (!context || cancelled) return;
+      const { width, height } = canvas;
+      const barsHeight = height * 0.68;
+      const barWidth = width / BARS.length;
+      BARS.forEach((color, index) => {
+        context.fillStyle = color;
+        context.fillRect(Math.floor(index * barWidth), 0, Math.ceil(barWidth), barsHeight);
+      });
+      context.fillStyle = "#1c1e21";
+      context.fillRect(0, barsHeight, width, height - barsHeight);
+
+      // Registration crosshair over the bars
+      context.strokeStyle = "#1c1e21";
+      context.lineWidth = 3;
+      context.beginPath();
+      context.arc(width / 2, barsHeight / 2, 70, 0, Math.PI * 2);
+      context.moveTo(width / 2 - 110, barsHeight / 2);
+      context.lineTo(width / 2 + 110, barsHeight / 2);
+      context.moveTo(width / 2, barsHeight / 2 - 110);
+      context.lineTo(width / 2, barsHeight / 2 + 110);
+      context.stroke();
+
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillStyle = "#ffffff";
+      context.font = '700 72px "Space Mono", ui-monospace, monospace';
+      context.letterSpacing = "12px";
+      context.fillText("NO SIGNAL", width / 2, barsHeight + (height - barsHeight) * 0.42);
+      context.fillStyle = "#a3a7ae";
+      context.font = '400 26px "Space Mono", ui-monospace, monospace';
+      context.letterSpacing = "6px";
+      context.fillText("E-404 · UNIT-01 · CH --", width / 2, barsHeight + (height - barsHeight) * 0.78);
+      texture.needsUpdate = true;
+    };
+    draw();
+    document.fonts.load('700 72px "Space Mono"').then(draw, () => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [texture]);
+
+  useEffect(() => () => texture.dispose(), [texture]);
+  return texture;
+};

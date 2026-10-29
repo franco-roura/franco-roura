@@ -1,5 +1,7 @@
 import type { MouseEventHandler, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useMagnetic } from "@/hooks/useMagnetic";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export type ButtonProps = {
   variant?: "primary" | "secondary" | "ghost";
@@ -7,9 +9,13 @@ export type ButtonProps = {
   target?: string;
   rel?: string;
   download?: boolean | string;
-  onClick?: MouseEventHandler;
+  onClick?: MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
   arrow?: boolean;
   disabled?: boolean;
+  // Leans toward a nearby cursor (fine pointers, motion allowed)
+  magnetic?: boolean;
+  // Holds the pressed-in look, e.g. while the contact block transmits
+  pressed?: boolean;
   "aria-label"?: string;
   "aria-pressed"?: boolean;
   className?: string;
@@ -25,12 +31,18 @@ export const Button = ({
   onClick,
   arrow,
   disabled,
+  magnetic,
+  pressed,
   "aria-label": ariaLabel,
   "aria-pressed": ariaPressed,
   className,
   children,
 }: ButtonProps) => {
-  const classes = cn("m1-btn", `m1-btn-${variant}`, className);
+  const finePointer = useMediaQuery("(pointer: fine)");
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const magnetRef = useMagnetic<HTMLAnchorElement & HTMLButtonElement>(Boolean(magnetic) && finePointer && !reducedMotion);
+
+  const classes = cn("m1-btn", `m1-btn-${variant}`, magnetic && "is-magnetic", pressed && "is-pressed", className);
   const content = (
     <>
       {children}
@@ -45,6 +57,7 @@ export const Button = ({
   if (href) {
     return (
       <a
+        ref={magnetRef}
         className={classes}
         href={href}
         target={target}
@@ -60,6 +73,7 @@ export const Button = ({
 
   return (
     <button
+      ref={magnetRef}
       type="button"
       className={classes}
       onClick={onClick}

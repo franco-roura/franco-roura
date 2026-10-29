@@ -27,7 +27,7 @@ export const SectionHeader = ({
   className,
 }: SectionHeaderProps) => (
   <header id={id} className={cn("m1-section", className)}>
-    <HudLabel code={code} end={index}>
+    <HudLabel code={code} end={index} flap>
       {label ?? title}
     </HudLabel>
     <div className="m1-section-top">

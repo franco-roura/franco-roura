@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { SplitFlap } from "./SplitFlap";
 
 export type NavItem = {
   label: string;
@@ -33,7 +34,7 @@ export const NavBar = ({
   <nav className={cn("m1-nav", className)} aria-label={label}>
     <a className="m1-nav-id" href={homeHref}>
       <span className="m1-h m1-h-sm">{name}</span>
-      {serial && <span className="m1-micro">{serial}</span>}
+      {serial && <SplitFlap text={serial} className="m1-micro" />}
     </a>
     <div className="m1-nav-links">
       {links.map((link, index) => (

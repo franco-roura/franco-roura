@@ -1,4 +1,5 @@
 import { Zap, Shield, TestTube } from "lucide-react";
+import { DrawIcon } from "./DrawIcon";
 import { Panel, SectionHeader } from "./m1";
 
 export const WorkingStyleSection = () => {
@@ -30,15 +31,14 @@ export const WorkingStyleSection = () => {
       <Panel serial="H-00">
         <ul className="divide-y divide-seam">
           {principles.map((principle, index) => {
-            const Icon = principle.icon;
             return (
               <li
                 key={principle.text}
-                className="flex flex-col items-start gap-3 py-5 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:gap-4"
+                className="m1-draw-row flex flex-col items-start gap-3 py-5 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:gap-4"
               >
                 <div className="flex items-center gap-4 shrink-0">
                   <span className="m1-hud m1-hudlabel-code">H-0{index + 1}</span>
-                  <Icon className="w-6 h-6" strokeWidth={1.25} />
+                  <DrawIcon icon={principle.icon} className="w-6 h-6" />
                 </div>
                 <p className="text-[17px] sm:text-[19px] leading-[1.55]">
                   {principle.text}

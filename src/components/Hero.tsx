@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
+import { LocalTime } from "./LocalTime";
 import { Button, Hero as HeroShell, HeroPortrait } from "./m1";
 
 const HeroTV = lazy(() => import("./tv/HeroTV"));
@@ -54,7 +55,7 @@ export const Hero = () => {
       lead="Obsessed with technology, driven by code. Software architect building scalable systems with surgical precision, caffeine, and unreasonable enthusiasm."
       actions={
         <>
-          <Button href="#contact" arrow>
+          <Button href="#contact" arrow magnetic>
             Get in touch
           </Button>
           <Button variant="secondary" href="https://github.com/franco-roura" target="_blank">
@@ -76,6 +77,7 @@ export const Hero = () => {
         { label: "Focus", value: "Systems & cloud" },
         { label: "Since", value: "2016" },
         { label: "Now", value: "White Prompt" },
+        { label: "Local", value: <LocalTime /> },
       ]}
       media={<HeroMedia />}
     />

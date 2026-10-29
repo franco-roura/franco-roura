@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Tag } from "./Tag";
 
@@ -12,6 +12,7 @@ export type ExperienceEntryProps = {
   location?: string;
   points?: ReactNode[];
   tags?: string[];
+  renderTag?: (tag: string) => ReactNode;
   className?: string;
 };
 
@@ -25,6 +26,7 @@ export const ExperienceEntry = ({
   location,
   points,
   tags,
+  renderTag,
   className,
 }: ExperienceEntryProps) => (
   <article className={cn("m1-exp", className)}>
@@ -54,9 +56,7 @@ export const ExperienceEntry = ({
       )}
       {tags && (
         <div className="m1-exp-tags">
-          {tags.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
+          {tags.map((tag) => (renderTag ? <Fragment key={tag}>{renderTag(tag)}</Fragment> : <Tag key={tag}>{tag}</Tag>))}
         </div>
       )}
     </div>

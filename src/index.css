@@ -4,6 +4,7 @@
 @import "./styles/module01.css" layer(components);
 @import "./styles/hud.css" layer(components);
 @import "./styles/tv.css" layer(components);
+@import "./styles/effects.css" layer(components);
 
 @theme inline {
   --color-canvas: var(--canvas);

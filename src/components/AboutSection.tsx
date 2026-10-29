@@ -1,39 +1,26 @@
-import { HudLabel, Panel, SectionHeader, Tag, type TagProps } from "./m1";
-
-type ToolkitTier = {
-  label: string;
-  note: string;
-  tone?: TagProps["tone"];
-  items: string[];
-};
-
-const toolkit: ToolkitTier[] = [
-  {
-    label: "Core",
-    note: "My strongest suit",
-    tone: "signal",
-    items: ["TypeScript", "React", "Next.js", "Python", "AWS", "Terraform", "SST", "Docker", "Postgres", "Sentry"],
-  },
-  {
-    label: "Working knowledge",
-    note: "Can find my way around",
-    items: ["C#", "Kubernetes", "MongoDB", "GCP", "Azure", "Grafana stack"],
-  },
-  {
-    label: "Learning",
-    note: "Picking up because I like them",
-    tone: "tint",
-    items: ["Go", "Rust", "DynamoDB"],
-  },
-  {
-    label: "Used before",
-    note: "Back in the day",
-    tone: "outline",
-    items: ["Java", "PHP", "MySQL", "Angular", "Vue", "jQuery"],
-  },
-];
+import { useState } from "react";
+import { toolkit } from "@/data/toolkit";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useSkillTrace } from "@/hooks/useSkillTrace";
+import { skillKey, skillReadout } from "@/lib/skills";
+import { cn } from "@/lib/utils";
+import { HudLabel, Panel, SectionHeader, Tag } from "./m1";
 
 export const AboutSection = () => {
+  const finePointer = useMediaQuery("(pointer: fine)");
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const { pinned, setPinned } = useSkillTrace();
+  const [focused, setFocused] = useState<string | null>(null);
+
+  // Pin the skill and jump to the timeline, where the trace is visible
+  const trace = (skill: string) => {
+    const alreadyPinned = pinned !== null && skillKey(pinned) === skillKey(skill);
+    setPinned(alreadyPinned ? null : skill);
+    if (!alreadyPinned) {
+      document.getElementById("experience")?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth" });
+    }
+  };
+
   return (
     <section className="flex flex-col gap-12">
       <SectionHeader
@@ -55,28 +42,49 @@ export const AboutSection = () => {
       </Panel>
 
       <div className="flex flex-col gap-4">
-        <HudLabel code="A-02">Toolkit</HudLabel>
+        <HudLabel code="A-02" end={finePointer ? "Hover a key · click to trace" : "Tap a key to trace"}>
+          Toolkit
+        </HudLabel>
 
         <Panel bodyClassName="p-0 overflow-hidden">
           <dl className="divide-y divide-seam">
-            {toolkit.map((tier) => (
-              <div
-                key={tier.label}
-                className="grid gap-3 p-6 md:grid-cols-[220px_1fr] md:gap-8"
-              >
-                <dt className="flex flex-col gap-1">
-                  <span className="m1-hud">{tier.label}</span>
-                  <span className="text-sm text-ink-soft">{tier.note}</span>
-                </dt>
-                <dd className="flex flex-wrap items-start content-start gap-2">
-                  {tier.items.map((item) => (
-                    <Tag key={item} tone={tier.tone}>
-                      {item}
-                    </Tag>
-                  ))}
-                </dd>
-              </div>
-            ))}
+            {toolkit.map((tier, tierIndex) => {
+              const readoutId = `toolkit-readout-${tierIndex}`;
+              const focusedHere = focused !== null && tier.items.includes(focused);
+              return (
+                <div
+                  key={tier.label}
+                  className="grid gap-3 p-6 md:grid-cols-[220px_1fr] md:gap-8"
+                >
+                  <dt className="flex flex-col gap-1">
+                    <span className="m1-hud">{tier.label}</span>
+                    <span className="text-sm text-ink-soft">{tier.note}</span>
+                    <span id={readoutId} className={cn("m1-readout m1-micro", focusedHere && "is-on")}>
+                      {focusedHere ? skillReadout(focused, tier.label) : ""}
+                    </span>
+                  </dt>
+                  <dd className="flex flex-wrap items-start content-start gap-2">
+                    {tier.items.map((item) => (
+                      <Tag
+                        key={item}
+                        interactive
+                        tone={tier.tone}
+                        className="m1-key"
+                        pressed={pinned !== null && skillKey(pinned) === skillKey(item)}
+                        aria-describedby={focused === item ? readoutId : undefined}
+                        onPointerEnter={() => setFocused(item)}
+                        onPointerLeave={() => setFocused(null)}
+                        onFocus={() => setFocused(item)}
+                        onBlur={() => setFocused(null)}
+                        onClick={() => trace(item)}
+                      >
+                        {item}
+                      </Tag>
+                    ))}
+                  </dd>
+                </div>
+              );
+            })}
           </dl>
         </Panel>
       </div>

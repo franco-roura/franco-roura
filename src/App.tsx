@@ -4,6 +4,7 @@ import { ServicesSection } from "./components/ServicesSection";
 import { WorkingStyleSection } from "./components/WorkingStyleSection";
 import { ExperienceSection } from "./components/ExperienceSection";
 import { ContactSection } from "./components/ContactSection";
+import { SkillTraceProvider } from "./components/SkillTrace";
 import { Button, Footer, NavBar } from "./components/m1";
 import { useActiveSection } from "./hooks/useActiveSection";
 
@@ -37,7 +38,7 @@ function App() {
             progress={progress}
             marks={marks}
             cta={
-              <Button href="#contact" className="h-11 shrink-0">
+              <Button href="#contact" className="h-11 shrink-0" magnetic>
                 Contact
               </Button>
             }
@@ -46,10 +47,12 @@ function App() {
 
         <main className="flex flex-col gap-24 pt-12 pb-24">
           <Hero />
-          <AboutSection />
-          <ServicesSection />
-          <WorkingStyleSection />
-          <ExperienceSection />
+          <SkillTraceProvider>
+            <AboutSection />
+            <ServicesSection />
+            <WorkingStyleSection />
+            <ExperienceSection />
+          </SkillTraceProvider>
           <ContactSection />
         </main>
 
@@ -65,7 +68,7 @@ function App() {
             },
             { label: "LinkedIn", href: "https://www.linkedin.com/in/franco-roura/", target: "_blank" },
           ]}
-          right="franco.roura.dev · REV.2026"
+          right={`BUILD ${__BUILD_COMMIT__} · ${__BUILD_DATE__}`}
         />
       </div>
     </div>

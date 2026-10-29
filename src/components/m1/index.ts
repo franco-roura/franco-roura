@@ -10,5 +10,6 @@ export * from "./NavBar";
 export * from "./Panel";
 export * from "./SectionHeader";
 export * from "./SpecReadout";
+export * from "./SplitFlap";
 export * from "./Tag";
 export * from "./TickRuler";
