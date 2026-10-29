@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import { AboutSection } from "./components/AboutSection";
 import { Hero } from "./components/Hero";
 import { ServicesSection } from "./components/ServicesSection";
@@ -19,6 +20,7 @@ function App() {
           <ProjectsSection />
         </div>
       </div>
+      <Analytics />
     </div>
   );
 }
