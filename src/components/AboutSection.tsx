@@ -1,12 +1,36 @@
-import { HudLabel, Panel, SectionHeader } from "./m1";
+import { HudLabel, Panel, SectionHeader, Tag, type TagProps } from "./m1";
 
-const toolkit = [
-  { label: "Languages", items: ["Go", "TypeScript", "Python"] },
-  { label: "Cloud", items: ["AWS", "GCP"] },
-  { label: "Infrastructure", items: ["Terraform", "Kubernetes", "CI/CD"] },
-  { label: "Observability", items: ["OpenTelemetry", "Grafana stack"] },
-  { label: "Frontend", items: ["React", "Next.js"] },
-  { label: "Architecture", items: ["Microservices", "Event-driven systems", "GraphQL APIs"] },
+type ToolkitTier = {
+  label: string;
+  note: string;
+  tone?: TagProps["tone"];
+  items: string[];
+};
+
+const toolkit: ToolkitTier[] = [
+  {
+    label: "Core",
+    note: "My strongest suit",
+    tone: "signal",
+    items: ["TypeScript", "React", "Next.js", "Python", "AWS", "Terraform", "SST", "Docker", "Postgres"],
+  },
+  {
+    label: "Working knowledge",
+    note: "Can find my way around",
+    items: ["Kubernetes", "Sentry", "MongoDB", "GCP", "Azure", "Grafana stack"],
+  },
+  {
+    label: "Learning",
+    note: "Picking up because I like them",
+    tone: "tint",
+    items: ["Go", "Rust", "DynamoDB"],
+  },
+  {
+    label: "Used before",
+    note: "Back in the day",
+    tone: "outline",
+    items: ["C#", "Java", "Angular", "Vue"],
+  },
 ];
 
 export const AboutSection = () => {
@@ -34,18 +58,22 @@ export const AboutSection = () => {
         <HudLabel code="A-02">Toolkit</HudLabel>
 
         <Panel bodyClassName="p-0 overflow-hidden">
-          <dl className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-seam">
-            {toolkit.map((group) => (
-              <div key={group.label} className="flex flex-col gap-3 bg-shell p-6">
-                <dt className="m1-hud text-ink-soft">{group.label}</dt>
-                <dd>
-                  <ul className="flex flex-col gap-1">
-                    {group.items.map((item) => (
-                      <li key={item} className="font-semibold">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+          <dl className="divide-y divide-seam">
+            {toolkit.map((tier) => (
+              <div
+                key={tier.label}
+                className="grid gap-3 p-6 md:grid-cols-[220px_1fr] md:gap-8"
+              >
+                <dt className="flex flex-col gap-1">
+                  <span className="m1-hud">{tier.label}</span>
+                  <span className="text-sm text-ink-soft">{tier.note}</span>
+                </dt>
+                <dd className="flex flex-wrap items-start content-start gap-2">
+                  {tier.items.map((item) => (
+                    <Tag key={item} tone={tier.tone}>
+                      {item}
+                    </Tag>
+                  ))}
                 </dd>
               </div>
             ))}
