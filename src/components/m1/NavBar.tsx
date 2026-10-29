@@ -14,6 +14,8 @@ export type NavBarProps = {
   cta?: ReactNode;
   homeHref?: string;
   label?: string;
+  progress?: number;
+  marks?: number[];
   className?: string;
 };
 
@@ -24,6 +26,8 @@ export const NavBar = ({
   cta,
   homeHref = "#",
   label = "Main",
+  progress,
+  marks,
   className,
 }: NavBarProps) => (
   <nav className={cn("m1-nav", className)} aria-label={label}>
@@ -45,5 +49,13 @@ export const NavBar = ({
       ))}
     </div>
     {cta}
+    {progress !== undefined && (
+      <div className="m1-nav-gauge" aria-hidden="true">
+        {marks?.map((mark, index) => (
+          <span key={index} className="m1-nav-gauge-mark" style={{ left: `${mark * 100}%` }} />
+        ))}
+        <span className="m1-nav-gauge-needle" style={{ left: `${progress * 100}%` }} />
+      </div>
+    )}
   </nav>
 );
