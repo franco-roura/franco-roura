@@ -1,4 +1,5 @@
 import { Server, Cloud, Code } from "lucide-react";
+import { Panel, SectionHeader } from "./m1";
 
 export const ServicesSection = () => {
   const services = [
@@ -23,37 +24,31 @@ export const ServicesSection = () => {
   ];
 
   return (
-    <section className="py-20 px-6 bg-slate-900/30">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-16 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-3">
-            <span className="text-2xl">⚙️</span>
-            What I Do
-          </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full mx-auto" />
-        </div>
+    <section className="flex flex-col gap-12">
+      <SectionHeader
+        id="services"
+        code="S-02"
+        label="Capabilities"
+        index="02 / 05"
+        title="What I do"
+      />
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <div
-                key={index}
-                className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 hover:border-emerald-400/30 hover:transform hover:scale-105 transition-all duration-300 group"
-              >
-                <div className="mb-4">
-                  <Icon className="w-8 h-8 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-slate-100">
-                  {service.title}
-                </h3>
-                <p className="text-slate-400 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+      <div className="grid md:grid-cols-3 gap-8">
+        {services.map((service, index) => {
+          const Icon = service.icon;
+          return (
+            <Panel
+              key={service.title}
+              serial={`D-0${index + 1}`}
+              bodyClassName="h-full flex flex-col gap-3 p-6 pt-11"
+              className="h-full"
+            >
+              <Icon className="w-8 h-8 text-signal-ink mb-2" strokeWidth={1.25} />
+              <h3 className="m1-h m1-h-sm">{service.title}</h3>
+              <p className="text-ink-soft leading-[1.6]">{service.description}</p>
+            </Panel>
+          );
+        })}
       </div>
     </section>
   );
