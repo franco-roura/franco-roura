@@ -47,8 +47,11 @@ export const ExperienceSection = () => {
       role: "Software Architect",
       start: "2025",
       description:
-        "Ah, the era of AI agents and LLMs. I'm currently building a BI tool with LLM integrations, I'm mostly on the Telemetry and infrastructure side of things. Fun fact, I also used LLMs to build this website during this period.",
+        "Ah, the era of AI agents and LLMs. I started out building a BI tool with LLM integrations, mostly on the Telemetry and infrastructure side of things. Once we shipped it, I moved on to a HIPAA compliant EHR for mental health, built with C# and React on Azure. Fun fact, I also used LLMs to build this website during this period.",
       tech: [
+        "C#",
+        "React",
+        "Azure",
         "Terraform",
         "OTEL",
         "Kubernetes",
@@ -72,28 +75,32 @@ export const ExperienceSection = () => {
       />
 
       <div>
-        {companies.map((company, index) => (
-          <ExperienceEntry
-            key={company.name}
-            code={`E-0${index + 1}`}
-            role={company.role}
-            org={
-              <a
-                href={company.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-signal-ink font-semibold hover:underline"
-              >
-                {company.name}
-              </a>
-            }
-            start={company.start}
-            end={company.end}
-            current={!company.end}
-            points={[company.description]}
-            tags={company.tech}
-          />
-        ))}
+        {/* Codes follow chronology (E-01 is the first job); newest is listed first */}
+        {companies
+          .map((company, index) => ({ ...company, code: `E-0${index + 1}` }))
+          .reverse()
+          .map((company) => (
+            <ExperienceEntry
+              key={company.name}
+              code={company.code}
+              role={company.role}
+              org={
+                <a
+                  href={company.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-signal-ink font-semibold hover:underline"
+                >
+                  {company.name}
+                </a>
+              }
+              start={company.start}
+              end={company.end}
+              current={!company.end}
+              points={[company.description]}
+              tags={company.tech}
+            />
+          ))}
       </div>
     </section>
   );

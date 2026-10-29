@@ -12,12 +12,12 @@ const toolkit: ToolkitTier[] = [
     label: "Core",
     note: "My strongest suit",
     tone: "signal",
-    items: ["TypeScript", "React", "Next.js", "Python", "AWS", "Terraform", "SST", "Docker", "Postgres"],
+    items: ["TypeScript", "React", "Next.js", "Python", "AWS", "Terraform", "SST", "Docker", "Postgres", "Sentry"],
   },
   {
     label: "Working knowledge",
     note: "Can find my way around",
-    items: ["Kubernetes", "Sentry", "MongoDB", "GCP", "Azure", "Grafana stack"],
+    items: ["C#", "Kubernetes", "MongoDB", "GCP", "Azure", "Grafana stack"],
   },
   {
     label: "Learning",
@@ -29,7 +29,7 @@ const toolkit: ToolkitTier[] = [
     label: "Used before",
     note: "Back in the day",
     tone: "outline",
-    items: ["C#", "Java", "Angular", "Vue"],
+    items: ["Java", "PHP", "MySQL", "Angular", "Vue", "jQuery"],
   },
 ];
 
