@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { ContactShadows, Environment, Float, Lightformer, PresentationControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -66,7 +66,10 @@ const ScreenDriver = ({
 
 // Leans the TV toward the cursor anywhere on the page, and turns it to a three-quarter
 // view when exploded so the parts separate in depth, pulling the camera back to fit them.
-const CAMERA_Z = { assembled: 7.1, exploded: 9.4 };
+// The camera sits a little above the TV, like a product shot, and dollies back for the exploded view.
+const CAMERA_DISTANCE = { assembled: 6.4, exploded: 9.8 };
+const CAMERA_RISE = 0.25;
+const LOOK_AT = new THREE.Vector3(0, 0.1, 0);
 
 const Rig = ({
   pointer,
@@ -87,15 +90,17 @@ const Rig = ({
     const tilt = still ? { x: 0, y: 0 } : pointer.current;
     const targetY = (exploded ? -0.55 : -0.18) + tilt.x * 0.3;
     const targetX = (exploded ? 0.12 : 0.04) + tilt.y * 0.12;
-    const cameraZ = exploded ? CAMERA_Z.exploded : CAMERA_Z.assembled;
+    const distance = exploded ? CAMERA_DISTANCE.exploded : CAMERA_DISTANCE.assembled;
     if (still) {
       group.rotation.set(targetX, targetY, 0);
-      camera.position.z = cameraZ;
-      return;
+      camera.position.z = distance;
+    } else {
+      group.rotation.y = THREE.MathUtils.damp(group.rotation.y, targetY, 4, delta);
+      group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 4, delta);
+      camera.position.z = THREE.MathUtils.damp(camera.position.z, distance, 5, delta);
     }
-    group.rotation.y = THREE.MathUtils.damp(group.rotation.y, targetY, 4, delta);
-    group.rotation.x = THREE.MathUtils.damp(group.rotation.x, targetX, 4, delta);
-    camera.position.z = THREE.MathUtils.damp(camera.position.z, cameraZ, 5, delta);
+    camera.position.y = camera.position.z * CAMERA_RISE;
+    camera.lookAt(LOOK_AT);
   });
 
   return <group ref={ref}>{children}</group>;
@@ -119,6 +124,7 @@ export default function HeroTV({ fallback }: HeroTVProps) {
   const staticTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const pointer = useRef<PointerTilt>({ x: 0, y: 0 });
   const lastMove = useRef(0);
+  const handleLoaded = useCallback(() => setReady(true), []);
 
   useEffect(() => {
     if (!finePointer) return;
@@ -167,14 +173,14 @@ export default function HeroTV({ fallback }: HeroTVProps) {
         <div className="m1-hero-tv-canvas">
           <Canvas
             dpr={[1, 1.75]}
-            camera={{ position: [0, 0.15, CAMERA_Z.assembled], fov: 30 }}
+            camera={{ position: [0, CAMERA_DISTANCE.assembled * CAMERA_RISE, CAMERA_DISTANCE.assembled], fov: 30 }}
             frameloop={inView ? "always" : "never"}
             gl={{ antialias: true, alpha: true }}
             style={{ touchAction: "pan-y" }}
-            onCreated={({ gl }) => {
+            onCreated={({ gl, camera }) => {
               gl.toneMapping = THREE.NeutralToneMapping;
               gl.toneMappingExposure = 1.15;
-              setReady(true);
+              camera.lookAt(LOOK_AT);
             }}
           >
             {/* A studio softbox setup built from light panels, so no HDR file is downloaded */}
@@ -203,13 +209,16 @@ export default function HeroTV({ fallback }: HeroTVProps) {
                 floatingRange={[-0.04, 0.04]}
               >
                 <Rig pointer={pointer} exploded={exploded} still={reducedMotion || !finePointer}>
-                  <TvModel
-                    exploded={exploded}
-                    instant={reducedMotion}
-                    screen={screen}
-                    onScreenClick={showAvatar ? () => avatar.input("poke")?.fire() : undefined}
-                    onKnobClick={avatar ? switchChannel : undefined}
-                  />
+                  <Suspense fallback={null}>
+                    <TvModel
+                      exploded={exploded}
+                      instant={reducedMotion}
+                      screen={screen}
+                      onScreenClick={showAvatar ? () => avatar.input("poke")?.fire() : undefined}
+                      onKnobClick={avatar ? switchChannel : undefined}
+                      onLoaded={handleLoaded}
+                    />
+                  </Suspense>
                 </Rig>
               </Float>
             </PresentationControls>

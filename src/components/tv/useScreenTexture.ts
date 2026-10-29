@@ -33,6 +33,7 @@ export const usePhotoTexture = (src: string) => {
 
         created = new THREE.CanvasTexture(canvas);
         created.colorSpace = THREE.SRGBColorSpace;
+        created.flipY = false; // the model's screen UVs follow the glTF convention
         created.anisotropy = 4;
         setTexture(created);
       })

@@ -52,6 +52,7 @@ export const useRiveScreen = (host: RefObject<HTMLElement | null>, enabled: bool
             const inputs = instance.stateMachineInputs("Avatar") ?? [];
             texture = new THREE.CanvasTexture(canvas);
             texture.colorSpace = THREE.SRGBColorSpace;
+            texture.flipY = false; // the model's screen UVs follow the glTF convention
             setScreen({
               rive: instance,
               texture,
