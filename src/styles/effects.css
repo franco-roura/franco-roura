@@ -1,0 +1,106 @@
+/* Round-two effects. Static states apply everywhere; motion only when the viewer allows it. */
+
+/* ---------- Keycap toolkit tags ---------- */
+.m1-tag { border: 0; }
+button.m1-tag { cursor: pointer; }
+.m1-key { box-shadow: var(--shadow-mold); transform: translateY(-1px); }
+.m1-key.m1-tag-outline { box-shadow: inset 0 0 0 1px var(--seam), var(--shadow-mold); }
+.m1-key:hover, .m1-key:focus-visible { transform: translateY(0); }
+.m1-key:active, .m1-key[aria-pressed="true"] { transform: translateY(1px); box-shadow: var(--shadow-press); }
+.m1-key.m1-tag-outline:active, .m1-key.m1-tag-outline[aria-pressed="true"] { box-shadow: inset 0 0 0 1px var(--seam), var(--shadow-press); }
+
+/* Toolkit readout line under each tier's note; reserves its height so nothing jumps */
+.m1-readout { min-height: 12px; margin-top: var(--space-2); color: var(--ink-soft); }
+.m1-readout.is-on { color: var(--ink); }
+
+/* ---------- Skill trace on the timeline ---------- */
+.m1-exp.is-dimmed { opacity: 0.45; }
+.m1-exp.is-traced .m1-exp-node { background: var(--signal); box-shadow: 0 0 0 4px var(--canvas); }
+.m1-exp-tags .m1-tag[aria-pressed="true"] { box-shadow: inset 0 0 0 1px var(--ink); }
+.m1-trace-chip { display: inline-flex; align-items: center; gap: var(--space-2); padding: 6px 12px; border: 0; border-radius: var(--radius-full);
+  background: var(--signal); color: var(--ink); cursor: pointer; box-shadow: var(--shadow-mold); white-space: nowrap; }
+.m1-trace-chip:active { box-shadow: var(--shadow-press); }
+@media (max-width: 720px) {
+  .m1-section-top { flex-wrap: wrap; }
+  .m1-trace-chip { white-space: normal; text-align: left; }
+}
+
+/* ---------- Timeline fill ---------- */
+.m1-exp-node { z-index: 1; }
+.m1-exp-track::after { content: ""; position: absolute; top: 0; left: 11px; width: 2px; height: calc(var(--fill, 0) * 100%); background: var(--signal); }
+.m1-exp.is-reached .m1-exp-node.is-past { background: var(--signal); box-shadow: 0 0 0 4px var(--canvas); }
+
+/* ---------- Local time as a fourth hero spec ---------- */
+.m1-hero-main { container-type: inline-size; }
+@container (max-width: 520px) {
+  .m1-hero .m1-spec { grid-template-columns: 1fr 1fr; }
+  .m1-hero .m1-spec > div { border-top: 0; border-left: 1px solid var(--seam); padding-left: var(--space-4); }
+  .m1-hero .m1-spec > div:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .m1-hero .m1-spec > div:nth-child(n + 3) { border-top: 1px solid var(--seam); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .m1-key, .m1-trace-chip { transition: transform 0.12s ease, box-shadow 0.12s ease; }
+  .m1-exp { transition: opacity 0.25s ease; }
+  .m1-exp-node { transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+  .m1-exp.is-traced .m1-exp-node::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-full);
+    border: 2px solid var(--signal); animation: m1-ping 1.6s ease-out infinite; }
+  .m1-local-colon { animation: m1-colon 2s steps(1) infinite; }
+}
+
+@keyframes m1-colon { 50% { opacity: 0; } }
+
+/* ---------- Molded service cards (tilt toward the cursor, shadow shifts away) ---------- */
+.m1-tilt {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  filter: drop-shadow(var(--lift-x, 0px) calc(4px + var(--lift-y, 0px) * 0.4) 10px rgba(28, 30, 33, 0.06))
+    drop-shadow(var(--lift-x, 0px) calc(24px + var(--lift-y, 0px)) 48px rgba(28, 30, 33, 0.1));
+}
+
+/* ---------- Self-drawing icons ---------- */
+.m1-draw-icon > * { stroke-dasharray: 80; stroke-dashoffset: 0; }
+
+/* ---------- Live diagrams on black glass ---------- */
+.m1-diagram { margin-top: auto; height: 96px; padding: 10px 12px; border-radius: var(--radius-md); background: var(--visor);
+  color: var(--shell); font-family: var(--font-mono); font-size: 11px; line-height: 15px; overflow: hidden; box-sizing: border-box; }
+.m1-diagram-line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m1-diagram-line.is-hidden { visibility: hidden; }
+.m1-diagram .is-cmd::before { content: "$ "; color: var(--signal); }
+.m1-diagram .is-add, .m1-diagram .is-ok { color: var(--led-on); }
+.m1-diagram .is-change, .m1-diagram .is-error { color: var(--signal); }
+.m1-diagram .is-note { color: var(--visor-mark); }
+.m1-diagram-svg { display: block; width: 100%; height: 100%; }
+.m1-diagram-edge { fill: none; stroke: var(--visor-mark); stroke-width: 1; }
+.m1-diagram-node { fill: #2a2d31; stroke: var(--visor-mark); stroke-width: 1; }
+.m1-diagram-label { fill: var(--shell); font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.08em; }
+.m1-diagram-dot { fill: var(--signal); }
+.m1-diagram:not(.is-active) .m1-diagram-dot { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .m1-tilt { transition: transform 0.45s ease, filter 0.45s ease; }
+  .m1-tilt:hover { transition-duration: 0.08s; }
+  .m1-panel:hover .m1-draw-icon > *, .m1-panel:focus-within .m1-draw-icon > *,
+  .m1-draw-row:hover .m1-draw-icon > *, .m1-draw-icon.is-drawing > * { animation: m1-draw 0.7s ease-out both; }
+}
+
+@keyframes m1-draw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+
+/* ---------- Magnetic molded buttons ---------- */
+.m1-btn.is-magnetic { transform: translate(var(--mx, 0px), var(--my, 0px)); }
+.m1-btn.is-magnetic:active, .m1-btn.is-magnetic.is-pressed { transform: translate(var(--mx, 0px), calc(var(--my, 0px) + 1px)); }
+
+/* ---------- Contact finale: the grill lights up left to right, then LinkedIn opens ---------- */
+.m1-contact.is-transmitting .m1-grill-slot { background: var(--shell); box-shadow: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .m1-btn.is-magnetic { transition: transform 0.18s ease-out, box-shadow 0.12s, background-color 0.12s; }
+  .m1-contact.is-transmitting .m1-grill-slot { animation: m1-transmit 0.18s ease-out both; }
+  .m1-contact.is-transmitting .m1-grill-slot:nth-child(1) { animation-delay: 0s; }
+  .m1-contact.is-transmitting .m1-grill-slot:nth-child(2) { animation-delay: 0.07s; }
+  .m1-contact.is-transmitting .m1-grill-slot:nth-child(3) { animation-delay: 0.14s; }
+  .m1-contact.is-transmitting .m1-grill-slot:nth-child(4) { animation-delay: 0.21s; }
+  .m1-contact.is-transmitting .m1-grill-slot:nth-child(5) { animation-delay: 0.28s; }
+  .m1-contact.is-transmitting .m1-grill-slot:nth-child(6) { animation-delay: 0.35s; }
+}
+
+@keyframes m1-transmit { from { background: var(--signal-shade); } to { background: var(--shell); } }

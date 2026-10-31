@@ -1,4 +1,6 @@
 import { Zap, Shield, TestTube } from "lucide-react";
+import { DrawIcon } from "./DrawIcon";
+import { Panel, SectionHeader } from "./m1";
 
 export const WorkingStyleSection = () => {
   const principles = [
@@ -17,35 +19,35 @@ export const WorkingStyleSection = () => {
   ];
 
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-16 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-3">
-            <span className="text-2xl">🧪</span>
-            How I Work
-          </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full mx-auto" />
-        </div>
+    <section className="flex flex-col gap-12">
+      <SectionHeader
+        id="approach"
+        code="S-03"
+        label="Principles"
+        index="03 / 05"
+        title="How I work"
+      />
 
-        <div className="space-y-6">
+      <Panel serial="H-00">
+        <ul className="divide-y divide-seam">
           {principles.map((principle, index) => {
-            const Icon = principle.icon;
             return (
-              <div
-                key={index}
-                className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 hover:border-emerald-400/30 transition-all duration-300 flex items-start gap-4 group"
+              <li
+                key={principle.text}
+                className="m1-draw-row flex flex-col items-start gap-3 py-5 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:gap-4"
               >
-                <div className="flex-shrink-0 mt-1">
-                  <Icon className="w-6 h-6 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
+                <div className="flex items-center gap-4 shrink-0">
+                  <span className="m1-hud m1-hudlabel-code">H-0{index + 1}</span>
+                  <DrawIcon icon={principle.icon} className="w-6 h-6" />
                 </div>
-                <p className="text-lg text-slate-300 leading-relaxed">
+                <p className="text-[17px] sm:text-[19px] leading-[1.55]">
                   {principle.text}
                 </p>
-              </div>
+              </li>
             );
           })}
-        </div>
-      </div>
+        </ul>
+      </Panel>
     </section>
   );
 };

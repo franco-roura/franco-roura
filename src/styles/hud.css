@@ -1,0 +1,52 @@
+/* Living HUD details on top of the Module/01 components. Motion only runs when the
+   viewer hasn't asked for reduced motion; the static states apply either way. */
+
+/* Crosshair lock-on: a panel's crosshair turns signal-ink when the panel has hover or focus */
+.m1-panel:hover .m1-panel-cross,
+.m1-panel:focus-within .m1-panel-cross { color: var(--signal-ink); transform: rotate(90deg) scale(1.25); }
+.m1-panel:hover .m1-panel-serial,
+.m1-panel:focus-within .m1-panel-serial { color: var(--ink-soft); }
+
+/* Scroll gauge along the nav's bottom edge */
+.m1-nav { position: relative; }
+.m1-nav-gauge { position: absolute; left: 32px; right: 32px; bottom: 7px; height: 5px; pointer-events: none; }
+.m1-nav-gauge::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--seam); }
+.m1-nav-gauge-mark { position: absolute; bottom: 0; width: 1px; height: 5px; background: var(--hud-mark); }
+.m1-nav-gauge-needle { position: absolute; bottom: -1px; width: 14px; height: 3px; margin-left: -7px; border-radius: var(--radius-full); background: var(--signal); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .m1-panel-cross { transition: transform 0.2s ease, color 0.2s ease; }
+  .m1-panel-serial { transition: color 0.2s ease; }
+
+  /* Boot-up: the hero's hinge tab rises out of its slot, the serial types in, the crosshair blinks on */
+  .m1-hero-tab { animation: m1-tab-in 0.4s 0.1s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .m1-hero .m1-panel-serial { animation: m1-type 0.5s 0.25s steps(24) both; }
+  .m1-hero .m1-panel-cross { animation: m1-blink-on 0.3s 0.6s steps(3) both; }
+
+  /* Draw-in: tick rulers reveal left to right the first time they scroll into view */
+  .m1-rulerwrap .m1-ruler { clip-path: inset(0 100% 0 0); transition: clip-path 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .m1-rulerwrap .m1-ruler-labels { opacity: 0; transition: opacity 0.4s 0.3s ease; }
+  .m1-rulerwrap.is-drawn .m1-ruler { clip-path: inset(0 0 0 0); }
+  .m1-rulerwrap.is-drawn .m1-ruler-labels { opacity: 1; }
+
+  /* Contact grill "transmitting" while the block has hover or focus */
+  .m1-contact:hover .m1-grill-slot,
+  .m1-contact:focus-within .m1-grill-slot { animation: m1-eq 0.9s ease-in-out infinite; }
+  .m1-contact .m1-grill-slot:nth-child(2) { animation-delay: 0.15s; }
+  .m1-contact .m1-grill-slot:nth-child(3) { animation-delay: 0.3s; }
+  .m1-contact .m1-grill-slot:nth-child(4) { animation-delay: 0.1s; }
+  .m1-contact .m1-grill-slot:nth-child(5) { animation-delay: 0.25s; }
+  .m1-contact .m1-grill-slot:nth-child(6) { animation-delay: 0.05s; }
+
+  /* The current job's node sends out a ring */
+  .m1-exp-node:not(.is-past)::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-full);
+    border: 2px solid var(--signal); animation: m1-ping 2.4s ease-out infinite; }
+
+  .m1-nav-gauge-needle { transition: left 0.12s linear; }
+}
+
+@keyframes m1-tab-in { from { transform: translateY(10px); } to { transform: translateY(0); } }
+@keyframes m1-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes m1-blink-on { 0% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes m1-eq { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes m1-ping { 0% { transform: scale(1); opacity: 0.7; } 70%, 100% { transform: scale(2.4); opacity: 0; } }

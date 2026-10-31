@@ -1,0 +1,61 @@
+/* Module/01 tokens, from the design system's tokens.json. Names match what module01.css reads. */
+:root {
+  /* Color */
+  --canvas: #f3f4f6;
+  --shell: #ffffff;
+  --shell-recess: #e7e9ec;
+  --seam: #c9ccd2;
+  --ink: #1c1e21;
+  --ink-soft: #53575e;
+  --hud-mark: #7c818a;
+  --signal: #ff5f1f;
+  --signal-ink: #b93d0a;
+  --signal-shade: #d94a12;
+  --signal-tint: #ffd9c7;
+  --studio: #b9bccd;
+  --visor: #1c1e21;
+  --visor-mark: #a3a7ae;
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-edge: rgba(255, 255, 255, 0.95);
+  --led-on: #1fa45a;
+
+  /* Type */
+  --font-display: Michroma, "Eurostile", "Microgramma", system-ui, sans-serif;
+  --font-sans: Manrope, system-ui, "Segoe UI", sans-serif;
+  --font-mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --radius-xl: 36px;
+  --radius-full: 999px;
+
+  /* Notch: one chamfered corner, top-right */
+  --notch-sm: 10px;
+  --notch-md: 20px;
+  --notch-lg: 36px;
+
+  /* Shadow */
+  --shadow-mold: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -2px 0 rgba(28, 30, 33, 0.06), 0 2px 4px rgba(28, 30, 33, 0.06), 0 10px 24px rgba(28, 30, 33, 0.08);
+  --shadow-press: inset 0 2px 5px rgba(28, 30, 33, 0.16);
+  --shadow-float: 0 4px 10px rgba(28, 30, 33, 0.06), 0 24px 48px rgba(28, 30, 33, 0.1);
+  --shadow-glass: inset 0 0 0 1px rgba(255, 255, 255, 0.95), 0 10px 30px rgba(28, 30, 33, 0.1);
+
+  /* Size */
+  --content-max: 1120px;
+  --nav-height: 64px;
+  --control-height: 44px;
+}
